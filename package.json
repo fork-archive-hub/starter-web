@@ -1,0 +1,16 @@
+{
+  "name": "starter-web",
+  "version": "0.1.0",
+  "description": "Starter code for creating modern web app",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf node_modules package-lock.json",
+    "blame": "git log -S"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baadal/starter-web.git"
+  },
+  "author": "Abhishek Raj <abhi@raj.me>",
+  "license": "MIT"
+}
