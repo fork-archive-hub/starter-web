@@ -1,8 +1,9 @@
 import path from 'path';
-import webpack, { Configuration, ConfigurationFactory, Entry } from 'webpack';
+import webpack, { Configuration, ConfigurationFactory, Entry, Plugin } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import merge from 'webpack-merge';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
 
 import dev from './webpack.dev';
 import { checkProd, checkServer } from '../src/utils/env.utils';
@@ -26,7 +27,9 @@ const common: ConfigurationFactory = (env: any) => {
     envConfig.node = { fs: 'empty' }; // Don't provide node module polyfills in non-node environment
   }
 
-  const plugins = [];
+  const plugins: Plugin[] = [
+    new Dotenv({ path: path.resolve(process.cwd(), `env/.env`) }),
+  ];
 
   if (isServer) {
     plugins.push(new webpack.optimize.LimitChunkCountPlugin({
