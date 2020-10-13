@@ -63,7 +63,7 @@ const common: ConfigurationFactory = (env: any) => {
   const entry: Entry = isServer ? {
     index: './src/index.ts'
   } : {
-    client: './src/client.ts'
+    client: './src/client.tsx'
   };
 
   return ({
@@ -75,7 +75,7 @@ const common: ConfigurationFactory = (env: any) => {
       publicPath: '/'
     },
     resolve: {
-      extensions: ['.ts', '.js'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
       alias: {
         src: path.resolve(process.cwd(), 'src/'),
         starter: path.resolve(process.cwd(), 'starter/'),
@@ -84,7 +84,7 @@ const common: ConfigurationFactory = (env: any) => {
     module: {
       rules: [
         {
-          test: /\.(ts|js)$/,
+          test: /\.(tsx?|jsx?)$/,
           exclude: /node_modules/,
           use: 'babel-loader'
         },

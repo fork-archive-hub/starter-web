@@ -7,7 +7,7 @@ export const template = () => {
     <title>My App</title>
   </head>
   <body>
-    <h2>My Web App</h2>
+    <div id="root"></div>
     <script src="/client.js"></script>
   </body>
 </html>`;
