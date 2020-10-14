@@ -18,6 +18,8 @@ const common: ConfigurationFactory = (env: any) => {
   const outputFileName = '[name].js';
   const chunkFilename = '[name].chunk.js';
 
+  const assetName = '[name].[ext]';
+
   const envConfig: Configuration = {};
 
   if (isServer) {
@@ -87,6 +89,18 @@ const common: ConfigurationFactory = (env: any) => {
           test: /\.(tsx?|jsx?)$/,
           exclude: /node_modules/,
           use: 'babel-loader'
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg|ico)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: `assets/images/${assetName}`,
+                emitFile: !isServer,
+              }
+            },
+          ],
         },
       ]
     },
