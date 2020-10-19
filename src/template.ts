@@ -1,6 +1,6 @@
 import { checkProd } from 'src/utils/env.utils';
 
-export const template = () => {
+export const template = (content: string) => {
   const isProd = checkProd();
 
   const styleTags = isProd ? '<link rel="stylesheet" href="/assets/css/style.css">' : '';
@@ -14,7 +14,7 @@ export const template = () => {
     <title>My App</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">${content}</div>
     <script src="/client.js"></script>
   </body>
 </html>`;
