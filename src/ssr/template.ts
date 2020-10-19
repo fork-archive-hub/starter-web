@@ -1,6 +1,6 @@
 import { checkProd } from 'src/utils/env.utils';
 
-export const template = (content: string) => {
+export const template = (content: string, initialData: any) => {
   const isProd = checkProd();
 
   const styleTags = isProd ? '<link rel="stylesheet" href="/assets/css/style.css">' : '';
