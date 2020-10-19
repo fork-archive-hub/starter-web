@@ -7,3 +7,5 @@ declare module '*.ico';
 
 declare module '*.css';
 declare module '*.scss';
+
+declare module 'cors';
