@@ -9,3 +9,4 @@ declare module '*.css';
 declare module '*.scss';
 
 declare module 'cors';
+declare module 'xmlhttprequest';
