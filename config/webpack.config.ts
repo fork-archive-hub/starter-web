@@ -7,6 +7,7 @@ import Dotenv from 'dotenv-webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
 import EventHooksPlugin from 'event-hooks-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 import dev from './webpack.dev';
 import prod from './webpack.prod';
@@ -16,6 +17,7 @@ import * as event from '../starter/event';
 const common: ConfigurationFactory = (env: any) => {
   const isProd = checkProd();
   const isServer = checkServer(env);
+  const isAnalyze = (process.env.BUNDLE_ANALYZE === 'true');
 
   const buildRoot = 'build';
   const outFolder = isServer ? `${buildRoot}/server` : `${buildRoot}/public`;
@@ -67,6 +69,10 @@ const common: ConfigurationFactory = (env: any) => {
         filename: path.resolve(process.cwd(), buildRoot),
       }
     }));
+  }
+
+  if (isAnalyze) {
+    plugins.push(new BundleAnalyzerPlugin());
   }
 
   let devtool: Configuration['devtool'] = false;
