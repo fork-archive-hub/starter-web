@@ -14,6 +14,10 @@ const routes: StringIndexable<RouteInfo> = {
     path: '/demo/css-in-js',
     source: '/api/v1/data/demo/css-in-js',
   },
+  stateStoreDemo: {
+    path: '/demo/state-store',
+    source: '/api/v1/data/demo/state-store',
+  },
   home: {
     path: '/',
     source: '/api/v1/data/home',

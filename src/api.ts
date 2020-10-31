@@ -40,6 +40,15 @@ const cssInJsDemo = {
   },
 };
 
+const storeInfo = () => ({
+  title: '<i>Demo:</i> State Store',
+  timestamp: new Date().toISOString(),
+  seo: {
+    title: 'Demo: State Store',
+    description: 'A demonstration for using state store',
+  },
+});
+
 const homeInfo = {
   title: 'My Starter App',
   description: 'The modern way!',
@@ -108,6 +117,7 @@ const sendResponse = (res: express.Response, data: any) => {
 app.get('/api/v1/data/about', (req, res) => sendResponse(res, aboutInfo));
 app.get('/api/v1/data/demo/css-styles', (req, res) => sendResponse(res, cssStylesDemoInfo));
 app.get('/api/v1/data/demo/css-in-js', (req, res) => sendResponse(res, cssInJsDemo));
+app.get('/api/v1/data/demo/state-store', (req, res) => sendResponse(res, storeInfo()));
 app.get('/api/v1/data/home', (req, res) => sendResponse(res, homeInfo));
 app.get('/api/v1/data/not-found', (req, res) => sendResponse(res, notFoundInfo));
 
