@@ -5,6 +5,7 @@ import merge from 'webpack-merge';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import LoadablePlugin from '@loadable/webpack-plugin';
 
 import dev from './webpack.dev';
 import prod from './webpack.prod';
@@ -54,6 +55,12 @@ const common: ConfigurationFactory = (env: any) => {
       patterns: [
         { from: 'static' }
       ]
+    }));
+    plugins.push(new LoadablePlugin({
+      outputAsset: false,
+      writeToDisk: {
+        filename: path.resolve(process.cwd(), buildRoot),
+      }
     }));
   }
 
