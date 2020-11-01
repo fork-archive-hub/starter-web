@@ -1,3 +1,5 @@
+import serialize from 'serialize-javascript';
+
 import { checkProd } from 'src/utils/env.utils';
 import { InitialData } from 'src/core/models/response.model';
 
@@ -10,7 +12,7 @@ export const template = (
 ) => {
   const isProd = checkProd();
 
-  const declareInitialData = initialData ? `<script>window.__initialData__ = ${JSON.stringify(initialData)}</script>` : '';
+  const declareInitialData = initialData ? `<script>window.__initialData__ = ${serialize(initialData)}</script>` : '';
 
   const defaultTitle = 'My Web App';
   const defaultDescription = 'A modern approach';
