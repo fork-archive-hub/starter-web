@@ -107,6 +107,36 @@ const footerInfo = (req: express.Request) => {
   return resp;
 };
 
+const getFibonacciNum = (n: string) => {
+  const num = parseInt(n || '', 10);
+
+  let fibonacciNum = '';
+  if (!Number.isNaN(num)) {
+    if (num === 0 || num === 1) {
+      fibonacciNum = `${num}`;
+    } else if (num > 1) {
+      let fx = 0;
+      let fn = 1;
+      for (let i = 2; i <= num; i += 1) {
+        const next = fx + fn;
+        fx = fn;
+        fn = next;
+      }
+      fibonacciNum = `${fn}`;
+    }
+  }
+
+  return {
+    title: 'Demo: Fibonacci Numbers',
+    n: `${num}`,
+    fn: fibonacciNum,
+    seo: {
+      title: 'Demo: Fibonacci Numbers',
+      description: 'A demonstration for fibonacci numbers',
+    },
+  };
+};
+
 // ------------------------
 
 const sendResponse = (res: express.Response, data: any) => {
@@ -118,6 +148,7 @@ app.get('/api/v1/data/about', (req, res) => sendResponse(res, aboutInfo));
 app.get('/api/v1/data/demo/css-styles', (req, res) => sendResponse(res, cssStylesDemoInfo));
 app.get('/api/v1/data/demo/css-in-js', (req, res) => sendResponse(res, cssInJsDemo));
 app.get('/api/v1/data/demo/state-store', (req, res) => sendResponse(res, storeInfo()));
+app.get('/api/v1/data/demo/fibonacci/:n', (req, res) => sendResponse(res, getFibonacciNum(req.params.n)));
 app.get('/api/v1/data/home', (req, res) => sendResponse(res, homeInfo));
 app.get('/api/v1/data/not-found', (req, res) => sendResponse(res, notFoundInfo));
 
