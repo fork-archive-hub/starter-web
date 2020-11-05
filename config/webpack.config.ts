@@ -36,6 +36,9 @@ const common: ConfigurationFactory = (env: any) => {
 
   const plugins: Plugin[] = [
     new Dotenv({ path: path.resolve(process.cwd(), `env/.env`) }),
+    new webpack.EnvironmentPlugin({
+      platform: (env.platform || ''),
+    }),
     new MiniCssExtractPlugin({
       filename: `assets/css/${miniCssFileName}`,
       chunkFilename: `assets/css/${miniCssChunkName}`,
