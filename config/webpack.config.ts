@@ -6,10 +6,12 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
+import EventHooksPlugin from 'event-hooks-webpack-plugin';
 
 import dev from './webpack.dev';
 import prod from './webpack.prod';
 import { checkProd, checkServer } from '../src/utils/env.utils';
+import * as event from '../starter/event';
 
 const common: ConfigurationFactory = (env: any) => {
   const isProd = checkProd();
@@ -43,6 +45,9 @@ const common: ConfigurationFactory = (env: any) => {
     new MiniCssExtractPlugin({
       filename: `assets/css/${miniCssFileName}`,
       chunkFilename: `assets/css/${miniCssChunkName}`,
+    }),
+    new EventHooksPlugin({
+      done: () => event.done(isServer),
     }),
   ];
 

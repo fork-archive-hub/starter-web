@@ -6,6 +6,7 @@
       "./node_modules/@types"
     ],
     "types": [
+      "event-hooks-webpack-plugin",
       "@emotion/react/types/css-prop"
     ],
     "baseUrl": "./",
@@ -34,6 +35,7 @@
   "include": [
     "./src/**/*",
     "./typings/**/*.d.ts",
+    "./starter/**/*",
     "./"
   ],
   "exclude": [
