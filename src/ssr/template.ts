@@ -15,6 +15,7 @@ export const template = (
   const isProd = checkProd();
 
   const declareInitialData = initialData ? `<script>window.__initialData__ = ${serialize(initialData)}</script>` : '';
+  const reloadScript = !isProd ? `<script src="/reload/reload.js"></script>` : '';
 
   const defaultTitle = 'My Web App';
   const defaultDescription = 'A modern approach';
@@ -48,6 +49,7 @@ export const template = (
     <div id="root">${content}</div>
     ${declareInitialData}
     ${scriptTags}
+    ${reloadScript}
     ${scriptBottom}
   </body>
 </html>`;

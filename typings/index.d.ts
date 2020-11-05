@@ -10,3 +10,4 @@ declare module '*.scss';
 
 declare module 'cors';
 declare module 'xmlhttprequest';
+declare module 'reload';

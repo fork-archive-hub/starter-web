@@ -1,4 +1,6 @@
+import http from 'http';
 import express from 'express';
+import reload from 'reload';
 import { XMLHttpRequest } from 'xmlhttprequest';
 
 import env from 'src/const/env.values';
@@ -27,8 +29,28 @@ app.use((req, res, next) => {
 // serve static assets
 app.use(express.static('build/public'));
 
-allRoutes(app);
+// create our own http server rather than using one given by express
+const server = http.createServer(app);
 
-app.listen(PORT, () => {
-  console.log(`\nApp running at port ${PORT} 😎\n`);
-});
+const startServer = () => {
+  server.listen(PORT, () => {
+    console.log(`\nApp running at port ${PORT} 😎\n`);
+  });
+};
+
+const reloadServer = () => {
+  reload(app)
+    .then(() => startServer())
+    .catch((error: any) => {
+      console.error('[ERROR] Reload could not start server!', error);
+    });
+};
+
+if (isProd) {
+  startServer();
+} else {
+  reloadServer();
+}
+
+// must be last so that Reload can set route '/reload/reload.js' by now
+allRoutes(app);
