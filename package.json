@@ -39,7 +39,8 @@
     "clean:all": "npx rimraf build node_modules package-lock.json",
     "blame": "git log -S",
     "blist": "npx browserslist",
-    "blist:update": "npx browserslist@latest --update-db"
+    "blist:update": "npx browserslist@latest --update-db",
+    "cloc": "npx cloc --exclude-list-file=.clocignore --exclude-dir=$(tr '\\n' ',' < .clocignore) ."
   },
   "repository": {
     "type": "git",
@@ -81,6 +82,7 @@
     "autoprefixer": "^10.0.2",
     "babel-loader": "^8.1.0",
     "browserslist": "^4.14.7",
+    "cloc": "^2.7.0",
     "copy-webpack-plugin": "^6.3.0",
     "cross-env": "^7.0.2",
     "css-loader": "^5.0.1",
