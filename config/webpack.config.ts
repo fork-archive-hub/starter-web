@@ -4,6 +4,7 @@ import nodeExternals from 'webpack-node-externals';
 import merge from 'webpack-merge';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import dev from './webpack.dev';
 import { checkProd, checkServer } from '../src/utils/env.utils';
@@ -18,6 +19,9 @@ const common: ConfigurationFactory = (env: any) => {
   const outputFileName = '[name].js';
   const chunkFilename = '[name].chunk.js';
 
+  const miniCssFileName = 'style.css';
+  const miniCssChunkName = '[name].chunk.css';
+
   const assetName = '[name].[ext]';
 
   const envConfig: Configuration = {};
@@ -31,6 +35,10 @@ const common: ConfigurationFactory = (env: any) => {
 
   const plugins: Plugin[] = [
     new Dotenv({ path: path.resolve(process.cwd(), `env/.env`) }),
+    new MiniCssExtractPlugin({
+      filename: `assets/css/${miniCssFileName}`,
+      chunkFilename: `assets/css/${miniCssChunkName}`,
+    }),
   ];
 
   if (isServer) {
@@ -89,6 +97,13 @@ const common: ConfigurationFactory = (env: any) => {
           test: /\.(tsx?|jsx?)$/,
           exclude: /node_modules/,
           use: 'babel-loader'
+        },
+        {
+          test: /\.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+          ]
         },
         {
           test: /\.(png|jpe?g|gif|svg|ico)$/i,
