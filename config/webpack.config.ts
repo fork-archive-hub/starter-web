@@ -70,6 +70,21 @@ const common: ConfigurationFactory = (env: any) => {
     children: false
   };
 
+  const getStyleLoaders = () => {
+    const loaders: string[] = ['css-loader'];
+    if (!isServer) {
+      if (!isProd) {
+        loaders.unshift('style-loader');
+      } else {
+        loaders.unshift(MiniCssExtractPlugin.loader);
+      }
+    } else if (!isProd) {
+      // Extract css for dev build [for debugging purpose]
+      loaders.unshift(MiniCssExtractPlugin.loader);
+    }
+    return loaders;
+  };
+
   const entry: Entry = isServer ? {
     index: './src/index.ts'
   } : {
@@ -100,10 +115,7 @@ const common: ConfigurationFactory = (env: any) => {
         },
         {
           test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-          ]
+          use: [...getStyleLoaders()]
         },
         {
           test: /\.(png|jpe?g|gif|svg|ico)$/i,
