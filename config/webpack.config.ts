@@ -1,12 +1,12 @@
-const path = require('path');
-const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
-const merge = require('webpack-merge');
+import path from 'path';
+import webpack, { Configuration, ConfigurationFactory, Entry } from 'webpack';
+import nodeExternals from 'webpack-node-externals';
+import merge from 'webpack-merge';
 
-const dev = require('./webpack.dev');
-const { checkProd, checkServer } = require('../src/utils/env.utils');
+import dev from './webpack.dev';
+import { checkProd, checkServer } from '../src/utils/env.utils';
 
-const common = (env) => {
+const common: ConfigurationFactory = (env: any) => {
   const isProd = checkProd();
   const isServer = checkServer(env);
 
@@ -16,7 +16,7 @@ const common = (env) => {
   const outputFileName = '[name].js';
   const chunkFilename = '[name].chunk.js';
 
-  const envConfig = {};
+  const envConfig: Configuration = {};
 
   if (isServer) {
     envConfig.target = 'node'; // Target node environment on server (ignore built-in modules like path, fs, etc.)
@@ -33,7 +33,7 @@ const common = (env) => {
     }));
   }
 
-  let devtool = '';
+  let devtool: Configuration['devtool'] = false;
   if (!isServer && !isProd) {
     devtool = 'inline-source-map';
   }
@@ -50,7 +50,7 @@ const common = (env) => {
     children: false
   };
 
-  const entry = isServer ? {
+  const entry: Entry = isServer ? {
     index: './src/index.ts'
   } : {
     client: './src/client.ts'
@@ -86,8 +86,10 @@ const common = (env) => {
   });
 };
 
-module.exports = (env = {}) => {
-  const commonConfig = common(env);
-  const envConfig = dev(env);
+const config: ConfigurationFactory = (env: any = {}) => {
+  const commonConfig = common(env, {}) as Configuration;
+  const envConfig = dev(env, {}) as Configuration;
   return merge(commonConfig, envConfig);
 };
+
+export default config;
