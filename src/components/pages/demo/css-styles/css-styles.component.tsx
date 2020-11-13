@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { demo, gradientDemo, modernFont } from './css-styles.module.css';
+import { demo, gradientDemo, modernFont } from './css-styles.module.scss';
 
 class CssStylesDemo extends React.Component<any, any> {
   render() {
