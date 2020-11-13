@@ -176,6 +176,7 @@ const common: ConfigurationFactory = (env: any) => {
         {
           test: /\.s?css$/,
           use: [...getStyleLoaders()],
+          sideEffects: true,
           exclude: /\.module\.s?css$/
         },
         {
