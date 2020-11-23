@@ -40,6 +40,7 @@ const common: ConfigurationFactory = (env: any) => {
   }
 
   const plugins: Plugin[] = [
+    new webpack.ProgressPlugin(),
     new Dotenv({ path: path.resolve(process.cwd(), `env/.env`) }),
     new webpack.EnvironmentPlugin({
       platform: (env.platform || ''),
