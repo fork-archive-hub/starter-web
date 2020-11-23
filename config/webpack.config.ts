@@ -50,6 +50,8 @@ const common: ConfigurationFactory = (env: any) => {
       chunkFilename: `assets/css/${miniCssChunkName}`,
     }),
     new EventHooksPlugin({
+      watchRun: () => event.watchRun(),
+      assetEmitted: (f: string, c: any) => event.assetEmitted(f, c),
       done: () => event.done(isServer),
     }),
   ];
@@ -89,7 +91,7 @@ const common: ConfigurationFactory = (env: any) => {
     assets: false,
     entrypoints: false,
     modules: false,
-    chunks: true,
+    chunks: !true,
     children: false
   };
 
