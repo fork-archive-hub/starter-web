@@ -30,10 +30,26 @@ const getPageData = <T = any>(req: GenericRequest | null, res?: Response) => {
   return of(null);
 };
 
+const getHeaderData = (req: GenericRequest | null, _res?: Response) => {
+  if (env.apiBaseUrl) {
+    return HttpClient.get(`${env.apiBaseUrl}/api/v1/data/header?path=${req?.path}`);
+  }
+  return of(null);
+};
+
+const getFooterData = (req: GenericRequest | null, _res?: Response) => {
+  if (env.apiBaseUrl) {
+    return HttpClient.get(`${env.apiBaseUrl}/api/v1/data/footer?path=${req?.path}`);
+  }
+  return of(null);
+};
+
 export const getInitialData = <T = any>(req: GenericRequest | null, res?: Response): Observable<InitialData<T> | null> => {
-  return forkJoin([getPageData<T>(req, res)]).pipe(
+  return forkJoin([getPageData<T>(req, res), getHeaderData(req, res), getFooterData(req, res)]).pipe(
     map(result => ({
       pageData: result[0],
+      headerData: result[1],
+      footerData: result[2],
     }))
   );
 };
