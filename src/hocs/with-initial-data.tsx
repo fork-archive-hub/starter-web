@@ -4,6 +4,7 @@ import { extractInitialData } from 'src/core/services/common.service';
 import { getInitialData } from 'src/core/services/pages.service';
 import { getGenericReqFromLocation } from 'src/utils/utils';
 import { PropsRoot } from 'src/core/models/common.model';
+import { Location } from 'history'; // eslint-disable-line
 
 function withInitialData<T = any>(Component: React.ComponentType<any>): React.ComponentType<any> {
   class WithInitialData extends React.Component<WithInitialDataProps, WithInitialDataState> {
@@ -25,14 +26,24 @@ function withInitialData<T = any>(Component: React.ComponentType<any>): React.Co
       if (this.isSsr) {
         this.isSsr = false;
       } else {
-        const req = getGenericReqFromLocation(this.props.location);
-        getInitialData<T>(req).subscribe(initialData => {
-          if (initialData) {
-            const { pageData } = initialData;
-            this.setState({ pageData });
-          }
-        });
+        this.loadPageData(this.props.location);
       }
+    }
+
+    componentDidUpdate(prevProps: WithInitialDataProps, _prevState: WithInitialDataState) {
+      if (prevProps.location.pathname !== this.props.location.pathname) {
+        this.loadPageData(this.props.location);
+      }
+    }
+
+    loadPageData(location: Location) {
+      const req = getGenericReqFromLocation(location);
+      getInitialData<T>(req).subscribe(initialData => {
+        if (initialData) {
+          const { pageData } = initialData;
+          this.setState({ pageData });
+        }
+      });
     }
 
     render() {
