@@ -5,7 +5,7 @@ import routes from 'src/core/routes/routes';
 import { PropsRoot } from 'src/core/models/common.model';
 import { HomePageData } from 'src/core/models/response.model';
 
-import { heroText } from 'src/assets/css/common.module.scss';
+import { heroText, punchline } from 'src/assets/css/common.module.scss';
 
 class Home extends React.Component<HomeProps, HomeState> {
   render() {
@@ -16,7 +16,7 @@ class Home extends React.Component<HomeProps, HomeState> {
     return (
       <>
         <h2 className={heroText}>{title}</h2>
-        <p>{description}</p>
+        <p className={punchline}>{description}</p>
         <ul>
           <li>
             <Link to={routes.cssStylesDemo.path}>Demo: CSS Styles</Link>
