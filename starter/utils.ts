@@ -1,4 +1,6 @@
 import path from 'path';
+import FileType from 'file-type';
+import mime from 'mime-types';
 
 import { LinkElem, StyleElem, DomElem } from 'src/core/models/common.model';
 import { readFile } from './lib/file-io';
@@ -58,4 +60,19 @@ export const getTagsFromElems = (elems: DomElem[]) => {
   });
 
   return tags.join('\n');
+};
+
+export const getMimeType = async (filename: string) => {
+  let mimeType: string | false = false;
+
+  try {
+    const fileType = await FileType.fromFile(filename);
+    mimeType = fileType?.mime || false;
+  } catch (e) {} // eslint-disable-line
+
+  if (!mimeType) {
+    mimeType = mime.contentType(path.extname(filename));
+  }
+
+  return mimeType;
 };

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import http from 'http';
 import express from 'express';
 import reload from 'reload';
@@ -6,6 +8,8 @@ import { XMLHttpRequest } from 'xmlhttprequest';
 import env from 'src/const/env.values';
 import { checkProd } from 'src/utils/env.utils';
 import allRoutes from 'src/ssr/all-routes';
+import { getMimeType } from 'starter/utils';
+import { COMPRESSION_FILES_REGEX } from 'starter/const';
 
 // support for XMLHttpRequest on node
 (global as any).XMLHttpRequest = XMLHttpRequest;
@@ -25,6 +29,33 @@ app.use((req, res, next) => {
   }
   return next();
 });
+
+// static compression for static assets
+if (isProd) {
+  app.get(COMPRESSION_FILES_REGEX, async (req, res, next) => {
+    const acceptEncoding = req.header('accept-encoding') || '';
+    const filename = path.resolve(process.cwd(), `build/public${req.url}`);
+    const mimeType = await getMimeType(filename);
+
+    if (/\bbr\b/.test(acceptEncoding)) {
+      if (fs.existsSync(filename + '.br')) {
+        req.url += '.br';
+        res.set('Content-Encoding', 'br');
+        if (mimeType) res.set('Content-Type', mimeType);
+        return next();
+      }
+    }
+    if (/\bgzip\b/.test(acceptEncoding)) {
+      if (fs.existsSync(filename + '.gz')) {
+        req.url += '.gz';
+        res.set('Content-Encoding', 'gzip');
+        if (mimeType) res.set('Content-Type', mimeType);
+        return next();
+      }
+    }
+    return next();
+  });
+}
 
 // serve static assets
 app.use(express.static('build/public'));
