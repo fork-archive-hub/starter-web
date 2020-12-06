@@ -4,6 +4,7 @@ import http from 'http';
 import express from 'express';
 import reload from 'reload';
 import { XMLHttpRequest } from 'xmlhttprequest';
+import compression from 'compression';
 
 import env from 'src/const/env.values';
 import { checkProd } from 'src/utils/env.utils';
@@ -59,6 +60,11 @@ if (isProd) {
 
 // serve static assets
 app.use(express.static('build/public'));
+
+// dynamic compression for non-static resources
+if (isProd) {
+  app.use(compression());
+}
 
 // create our own http server rather than using one given by express
 const server = http.createServer(app);

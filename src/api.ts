@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 
 import { ServerResponse } from './core/models/response.model';
 
@@ -10,6 +11,7 @@ const PORT = process.env.portApi || 4000;
 app.disable('x-powered-by');
 
 app.use(cors());
+app.use(compression());
 
 app.set('json spaces', 2);
 
