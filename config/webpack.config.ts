@@ -206,6 +206,18 @@ const common: ConfigurationFactory = (env: any) => {
             },
           ],
         },
+        {
+          test: /\.(ttf|woff2?)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: `assets/fonts/${assetName}`,
+                emitFile: !isServer,
+              }
+            },
+          ],
+        },
       ]
     },
     watchOptions: {
