@@ -2,13 +2,13 @@ import serialize from 'serialize-javascript';
 
 import { checkProd } from 'src/utils/env.utils';
 import { InitialData } from 'src/core/models/response.model';
-import { StyleElem } from 'src/core/models/common.model';
-import { getAssetName, getAssetData } from 'starter/utils';
+import { LinkElem, StyleElem } from 'src/core/models/common.model';
+import { getAssetName, getAssetData, getTagsFromElems } from 'starter/utils';
 
 export const template = (
   content: string,
   scriptTags: string,
-  linkTags: string,
+  linkElems: LinkElem[],
   styleElems: StyleElem[],
   initialData: InitialData | null
 ) => {
@@ -23,12 +23,12 @@ export const template = (
 
   let scriptTop = '';
   let criticalCss = '';
+  let linkTags = '';
 
   if (isProd) {
     scriptTop = `<script>${getAssetData(`/${getAssetName('scriptTop')}`)}</script>`;
     criticalCss = `<style>${styleElems.map(el => getAssetData(el.props.href)).join(' ')}</style>`;
-  } else {
-    linkTags = '';
+    linkTags = getTagsFromElems(linkElems);
   }
 
   const page = `<!DOCTYPE html>

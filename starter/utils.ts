@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { LinkElem, StyleElem, DomElem } from 'src/core/models/common.model';
 import { readFile } from './lib/file-io';
 
 const getStatsJson = () => {
@@ -16,4 +17,45 @@ export const getAssetName = (chunkName: string) => {
 export const getAssetData = (assetName: string) => {
   const assetFile = path.resolve(process.cwd(), `build/public${assetName}`);
   return readFile(assetFile) || '';
+};
+
+export const filterLinkElems = (linkElems: LinkElem[], styleElems: StyleElem[]) => {
+  const linkElemsMap = new Map<string, LinkElem>();
+  const linkElemsFilter: LinkElem[] = [];
+  const styleSheets = styleElems.map(el => el.props.href);
+
+  linkElems.forEach(linkElem => {
+    if (
+      !linkElemsMap.has(linkElem.props.href) ||
+      (linkElemsMap.get(linkElem.props.href)?.props.rel === 'prefetch' && linkElem.props.rel === 'preload')
+    ) {
+      linkElemsMap.set(linkElem.props.href, linkElem);
+    }
+  });
+  linkElemsMap.forEach((value, key) => {
+    if (styleSheets.includes(key) && value.props.rel === 'preload') {
+      linkElemsFilter.push({
+        type: value.type,
+        props: { ...value.props, rel: 'prefetch' },
+      });
+    } else {
+      linkElemsFilter.push(value);
+    }
+  });
+
+  return linkElemsFilter;
+};
+
+export const getTagsFromElems = (elems: DomElem[]) => {
+  const tags: string[] = [];
+
+  elems.forEach(el => {
+    const tag = [`<${el.type}`];
+    Object.entries(el.props).forEach(([key, value]) => {
+      tag.push(`${key}="${value}"`);
+    });
+    tags.push(tag.join(' ') + '>');
+  });
+
+  return tags.join('\n');
 };

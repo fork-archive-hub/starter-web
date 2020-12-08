@@ -28,3 +28,4 @@ export interface DomElem {
 }
 
 export type StyleElem = DomElem;
+export type LinkElem = DomElem;
