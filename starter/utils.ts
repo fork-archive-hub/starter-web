@@ -21,6 +21,12 @@ export const getAssetData = (assetName: string) => {
   return readFile(assetFile) || '';
 };
 
+export const getFontList = () => {
+  const statsJson = getStatsJson();
+  const fontList = statsJson?.assets?.map((f: any) => f.name).filter((f: any) => /\.(ttf|woff2?)/.test(f));
+  return (fontList || []) as string[];
+};
+
 export const filterLinkElems = (linkElems: LinkElem[], styleElems: StyleElem[]) => {
   const linkElemsMap = new Map<string, LinkElem>();
   const linkElemsFilter: LinkElem[] = [];
