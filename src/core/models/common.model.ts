@@ -21,3 +21,10 @@ export interface GenericRequest {
   query?: StringIndexable<any>;
   params?: any;
 }
+
+export interface DomElem {
+  type: string;
+  props: StringIndexable<string>;
+}
+
+export type StyleElem = DomElem;
