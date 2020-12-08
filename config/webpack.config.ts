@@ -159,7 +159,8 @@ const common: ConfigurationFactory = (env: any) => {
   const entry: Entry = isServer ? {
     index: './src/index.ts'
   } : {
-    client: './src/client.tsx'
+    client: './src/client.tsx',
+    scriptTop: './starter/script-top.ts'
   };
 
   return ({
