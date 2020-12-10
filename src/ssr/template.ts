@@ -27,6 +27,7 @@ export const template = (
   let criticalCss = '';
   let linkTags = '';
   let fontLinks = '';
+  let disableReactDevTools = '';
 
   if (isProd) {
     scriptTop = `<script>${getAssetData(`/${getAssetName('scriptTop')}`)}</script>`;
@@ -36,6 +37,14 @@ export const template = (
     fontLinks = getFontList()
       .map(f => `<link rel="prefetch" as="font" href="/${f}">`)
       .join('\n');
+
+    disableReactDevTools = `
+      <script>
+      if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
+        window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function() {};
+      }
+      </script>
+    `;
   }
 
   const page = `<!DOCTYPE html>
@@ -48,6 +57,7 @@ export const template = (
     ${scriptTop}
     ${linkTags}
     ${fontLinks}
+    ${disableReactDevTools}
     <title>${title}</title>
   </head>
   <body>
