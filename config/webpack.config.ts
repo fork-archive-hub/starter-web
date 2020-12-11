@@ -160,7 +160,8 @@ const common: ConfigurationFactory = (env: any) => {
     index: './src/index.ts'
   } : {
     client: './src/client.tsx',
-    scriptTop: './starter/script-top.ts'
+    scriptTop: './starter/script-top.ts',
+    scriptBottom: './starter/script-bottom.ts'
   };
 
   return ({

@@ -22,11 +22,13 @@ export const template = (
   const description = initialData?.pageData?.seo?.description || defaultDescription;
 
   let scriptTop = '';
+  let scriptBottom = '';
   let criticalCss = '';
   let linkTags = '';
 
   if (isProd) {
     scriptTop = `<script>${getAssetData(`/${getAssetName('scriptTop')}`)}</script>`;
+    scriptBottom = `<script>${getAssetData(`/${getAssetName('scriptBottom')}`)}</script>`;
     criticalCss = `<style>${styleElems.map(el => getAssetData(el.props.href)).join(' ')}</style>`;
     linkTags = getTagsFromElems(linkElems);
   }
@@ -46,6 +48,7 @@ export const template = (
     <div id="root">${content}</div>
     ${declareInitialData}
     ${scriptTags}
+    ${scriptBottom}
   </body>
 </html>`;
 
